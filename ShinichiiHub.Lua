@@ -2499,7 +2499,7 @@ function CheckItemBPCRBPCR(name)
     end
 end
 
-local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/NguyenLam2504/rblx/refs/heads/main/gay.lua"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
     local Window = Fluent:CreateWindow({
     Title = "Shinichiil Hub| Blox Fruits by @pilightreal" ,
     SubTitle = "Beta",
