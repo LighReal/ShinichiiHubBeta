@@ -1,28 +1,64 @@
-hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function() return end)
-hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function() return end)
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local SoundService = game:GetService("SoundService")
 local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+
+local DeathEffect = require(ReplicatedStorage.Effect.Container:FindFirstChild("Death"))
+local RespawnEffect = require(ReplicatedStorage.Effect.Container:FindFirstChild("Respawn"))
+
+if typeof(DeathEffect) == "function" then
+    hookfunction(DeathEffect, function() return end)
+end
+
+if typeof(RespawnEffect) == "function" then
+    hookfunction(RespawnEffect, function() return end)
+end
+
+
 local MainScreenGui = Instance.new("ScreenGui")
 local ButtonScreenGui = Instance.new("ScreenGui")
 local ImageButton = Instance.new("ImageButton")
 local UICorner = Instance.new("UICorner")
 local UIStroke = Instance.new("UIStroke")
+
 MainScreenGui.Name = "MainScreenGui"
-MainScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+MainScreenGui.Parent = player:WaitForChild("PlayerGui")
+MainScreenGui.Enabled = false -- Ban đầu tắt giao diện chính
+
 ButtonScreenGui.Name = "ButtonScreenGui"
-ButtonScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ButtonScreenGui.Parent = player:WaitForChild("PlayerGui")
+
 ImageButton.Parent = ButtonScreenGui
 ImageButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.10615778, 0, 0.16217947, 0) 
-ImageButton.AnchorPoint = Vector2.new(0.5, 0) 
+ImageButton.Position = UDim2.new(0.1, 0, 0.15, 0)
 ImageButton.Size = UDim2.new(0, 50, 0, 50)
-ImageButton.Image = "rbxassetid://5717870358"
-UICorner.CornerRadius = UDim.new(1, 0) 
+ImageButton.Image = "rbxassetid://18241810393"
+
+UICorner.CornerRadius = UDim.new(1, 0)
 UICorner.Parent = ImageButton
 UIStroke.Parent = ImageButton
+
+
+ImageButton.MouseButton1Click:Connect(function()
+    MainScreenGui.Enabled = not MainScreenGui.Enabled
+end)
+
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 400, 0, 300)
+Frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Frame.Parent = MainScreenGui
+
+local Label = Instance.new("TextLabel")
+Label.Size = UDim2.new(1, 0, 0, 50)
+Label.Position = UDim2.new(0, 0, 0, 0)
+Label.Text = "Main Screen"
+Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+Label.BackgroundTransparency = 1
+Label.Parent = Frame
+
 
 local colors = {
     Color3.fromRGB(255, 165, 0),
@@ -113,7 +149,7 @@ function DiscordLib:Notification(text,text2,delays,logo)
     imagenoti.Position = UDim2.new(0.135999978, 0, 0.5, 0)
     imagenoti.Size = UDim2.new(0, 50, 0, 50)
     imagenoti.BackgroundTransparency = 1
-    imagenoti.Image = "http://www.roblox.com/asset/?id="..tostring(logo)
+    imagenoti.Image = "http://www.roblox.com/asset/?id=5717870358"..tostring(logo)
 
     local txdlid = Instance.new("TextLabel")
     local LableFrame = Instance.new("Frame")
@@ -2499,7 +2535,7 @@ function CheckItemBPCRBPCR(name)
     end
 end
 
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/LighReal/ShinichiiHubBeta/refs/heads/main/noFilter.webp"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
     local Window = Fluent:CreateWindow({
@@ -2514,21 +2550,16 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
-    About = Window: AddTab({ Title = "• information", Icon = "clipboard" }),
-	Settings = Window:AddTab({ Title = "• Settings", Icon = "cog" }),
-	Main = Window:AddTab({ Title = "• Auto Farm", Icon = "ghost" }),
-    Qs = Window:AddTab({ Title = "• Item Quest", Icon = "axe" }),
-    Se = Window:AddTab({ Title = "• Sea Event", Icon = "sailboat" }),   
-    Migare = Window:AddTab({ Title = "• Mirage Islands", Icon = "palmtree" }),   
-    spl = Window:AddTab({ Title = "• Status Point", Icon = "smartphone" }),   	
-	playerpvp = Window:AddTab({ Title = "• Player", Icon = "baby" }),    
-    Lc = Window:AddTab({ Title = "• Teleport", Icon = "map-pin" }),   
-    RC = Window:AddTab({ Title = "• Race V4", Icon = "eye" }),
-	raid = Window:AddTab({ Title = "• Dungeon", Icon = "trophy" }),
-	De = Window:AddTab({ Title = "• Devil Fruit", Icon = "apple" }),   
-	esp = Window:AddTab({ Title = "• Esp Player", Icon = "check-circle" }),
-	Sh = Window:AddTab({ Title = "• Shop", Icon = "shopping-cart" }),
-    Ms = Window:AddTab({ Title = "• Misc", Icon = "power" }),   
+    Main = Window:AddTab({ Title = "Main", Icon = "home" }),
+    Setting = Window:AddTab({ Title = "Setting", Icon = "settings-2" }),
+    Stats = Window:AddTab({ Title = "Stats", Icon = "plus-circle" }),
+    Player = Window:AddTab({ Title = "Player", Icon = "baby" }),
+    Teleport = Window:AddTab({ Title = "Teleport", Icon = "palmtree" }),
+    Fruit = Window:AddTab({ Title = "Devil Fruit", Icon = "cherry" }),
+    Raid = Window:AddTab({ Title = "Dungeon", Icon = "swords" }),
+    Race = Window:AddTab({ Title = "Race V4", Icon = "chevrons-right" }),
+    Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
+    Misc = Window:AddTab({ Title = "Misc", Icon = "arrow-down-circle" }),
 }
 
 local Options = Fluent.Options
@@ -3049,7 +3080,7 @@ Toggle = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Click", Default = fa
 local Dropdown = Tabs.Settings:AddDropdown("Dropdown", {
         Title = "Bring Mode",
         Values = {"Low", "Normal", "Super Bring"},
-        Multi = false,
+        Multi = true,
         Default = 1,
     })
 
@@ -3309,7 +3340,7 @@ spawn(function()
     
 
  local MonsterStatus = Tabs.Main:AddParagraph({
-        Title = "",
+        Title = "Dell Co J",
         Content = ""
     })
     
@@ -3427,7 +3458,7 @@ function RedeemCode(value)
 local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
         Title = "Select Fast Attack",
         Values = {"Low Fast Attack","Normal Attack","Fast Attack","Super Fast Attack","New Fast Attack"},
-        Multi = false,
+        Multi = true,
         Default = 1,
     })
 
@@ -3454,7 +3485,7 @@ end
     local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
         Title = "Select Weapon",
         Values = {"Melee","Sword","Fruit","Gun"},
-        Multi = false,
+        Multi = true,
         Default = 1,
     })
 
